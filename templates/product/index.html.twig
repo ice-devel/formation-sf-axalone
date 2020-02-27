@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    {# reprendre le contenu du block dans le parent #}
+    {{ parent() }}
+
+    {# ajouter du contenu en plus #}
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    {# structure conditionnelle : #}
+    {% if tabInts | length > 0 %}
+        <ul>
+            {# structure itérative : parcourir un tableau en twig #}
+            {% for int in tabInts %}
+               <li>{{ int }}{% if not loop.last %},{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {# ne rien mettre dans le block supprime ce qu'il y avait dans le block parent #}
+{% endblock %}
