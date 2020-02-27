@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello show user!{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+   <p>{{ user.id }}</p>
+   <p>{{ user.name }}</p>
+   <p>{{ user.isEnabled ? 'Activé' : 'Désactivé' }}</p>
+
+   <p>{{ userToto.id }}</p>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        table {
+            border-collapse:collapse;
+        }
+        table td {
+            border:1px solid;
+            padding:5px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <table>
+    {% for user in  users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>
+                {% if user.isEnabled %}Activé{% else %}Désactivé{% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <table>
+        {% for user in  usersEnabled %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>
+                    {% if user.isEnabled %}Activé{% else %}Désactivé{% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {# ne rien mettre dans le block supprime ce qu'il y avait dans le block parent #}
+{% endblock %}
