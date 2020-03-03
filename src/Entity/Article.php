@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("title")
  */
 class Article
 {
@@ -18,6 +21,9 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Length(
+     *      max = 5
+     * )
      */
     private $title;
 
@@ -40,6 +46,16 @@ class Article
      * @ORM\Column(type="decimal", precision=4, scale=2, nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -104,5 +120,36 @@ class Article
         $this->price = $price;
 
         return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate() {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

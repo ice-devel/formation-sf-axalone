@@ -1,4 +1,20 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+{# affichage du formulaire en une seule fonction #}
+{# {{ form_widget(form) }} #}
+
+{# 2 : affichage du formulaire champ par champs
+ label, widget, error
+ #}
+{#
+    <div class="backred">
+        {{ form_row(form.title, {'attr': {'class': 'coucou'}}) }}
+    </div>
+    {{ form_row(form.createdAt) }}
+#}
     <button class="btn">{{ button_label|default('Save') }}</button>
+
+{# 3 : éléments de champs par élément de champ #}
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    {{ form_errors(form.title) }}
 {{ form_end(form) }}

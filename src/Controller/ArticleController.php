@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/article")
+ * @Route("/article-entity")
  */
 class ArticleController extends AbstractController
 {
@@ -31,9 +32,14 @@ class ArticleController extends AbstractController
     public function new(Request $request): Response
     {
         $article = new Article();
+        // créer un formulaire et le lier à une entité
         $form = $this->createForm(ArticleType::class, $article);
+
+        // on passe la requête au formulaire pour qu'il hydrate
+        // l'entité liée
         $form->handleRequest($request);
 
+        // est-ce le formulaire est soumis et valide ?
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
@@ -42,6 +48,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('article_index');
         }
 
+        // afichage du formulaire
         return $this->render('article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
@@ -53,6 +60,10 @@ class ArticleController extends AbstractController
      */
     public function show(Article $article): Response
     {
+        $user = new User();
+        $user->setName("gégé");
+        $user->addArticle($article);
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
