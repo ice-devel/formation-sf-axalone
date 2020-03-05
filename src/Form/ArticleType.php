@@ -14,11 +14,11 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('createdAt')
+            //->add('createdAt')
             ->add('text')
             ->add('isFree')
-            ->add('price')
-            ->add('file', FileType::class, ['mapped' => false])
+            ->add('price', ChoiceType)
+            //->add('file', FileType::class, ['mapped' => false])
         ;
     }
 

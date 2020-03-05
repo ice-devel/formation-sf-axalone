@@ -40,12 +40,17 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         // est-ce le formulaire est soumis et valide ?
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($article);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('article_index');
+                return $this->redirectToRoute('article_index');
+            }
+            else {
+                $this->addFlash('danger', 'ERREUR');
+            }
         }
 
         // afichage du formulaire
